@@ -124,12 +124,10 @@ variable "disk_type_1" {
 
 variable "pd_ssd_size" {
   description = "Persistent disk size in GB"
-  default     = ""
 }
 
 variable "pd_hdd_size" {
   description = "Persistent disk size in GB"
-  default     = ""
 }
 
 variable "disk_name_0" {
@@ -202,4 +200,8 @@ variable "primary_instance_internal_ip" {
 variable "secondary_instance_internal_ip" {
   description = "Secondary instance private ip address"
   default     = ""
+}
+
+variable "dm_state_bucket_name" {
+  description = "stored dm file state"
 }

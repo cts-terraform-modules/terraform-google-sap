@@ -18,10 +18,6 @@ terraform {
   required_version = "~> 0.12.0"
 }
 
-module "sap_hana" {
-  source        = "./sap_hana_python"
-  instance-type = var.instance_type
-}
 
 resource "google_compute_address" "primary_instance_ip" {
   count = var.public_ip ? 1 : 0
@@ -73,7 +69,7 @@ resource "google_compute_disk" "gcp_sap_hana_sd_0" {
   name    = var.disk_name_0
   type    = var.disk_type_0
   zone    = var.primary_zone
-  size    = var.pd_ssd_size != "" ? var.pd_ssd_size : floor(module.sap_hana.diskSizeSSD)
+  size    = var.pd_ssd_size
 
   # Add the disk_encryption_key block only if a pd_kms_key was provided
   dynamic "disk_encryption_key" {
@@ -89,7 +85,7 @@ resource "google_compute_disk" "gcp_sap_hana_sd_1" {
   name    = var.disk_name_1
   type    = var.disk_type_1
   zone    = var.primary_zone
-  size    = var.pd_hdd_size != "" ? var.pd_hdd_size : floor(module.sap_hana.diskSizeHDD)
+  size    = var.pd_hdd_size
 
   # Add the disk_encryption_key block only if a pd_kms_key was provided
   dynamic "disk_encryption_key" {
@@ -105,7 +101,7 @@ resource "google_compute_disk" "gcp_sap_hana_sd_2" {
   name    = var.disk_name_2
   type    = var.disk_type_0
   zone    = var.secondary_zone
-  size    = var.pd_ssd_size != "" ? var.pd_ssd_size : floor(module.sap_hana.diskSizeSSD)
+  size    = var.pd_ssd_size
 
   # Add the disk_encryption_key block only if a pd_kms_key was provided
   dynamic "disk_encryption_key" {
@@ -121,7 +117,7 @@ resource "google_compute_disk" "gcp_sap_hana_sd_3" {
   name    = var.disk_name_3
   type    = var.disk_type_1
   zone    = var.secondary_zone
-  size    = var.pd_hdd_size != "" ? var.pd_hdd_size : floor(module.sap_hana.diskSizeHDD)
+  size    = var.pd_hdd_size
 
   # Add the disk_encryption_key block only if a pd_kms_key was provided
   dynamic "disk_encryption_key" {
